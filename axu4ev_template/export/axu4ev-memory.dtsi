@@ -1,0 +1,15 @@
+/* Include from system-user.dtsi. PL shares the PS DDR controller.
+ * CONFIG_ID: 8900186fcb2c342e9dba1ea204bd0c96b749bf33d68881f1d9a3ba1770ac81f8
+ * no-map reserves software ownership; it does not enforce AXI isolation. */
+/ {
+    axu4ev-config-id = "8900186fcb2c342e9dba1ea204bd0c96b749bf33d68881f1d9a3ba1770ac81f8";
+    reserved-memory {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+        axu4ev_pl_pool: pl-pool@840000000 {
+            no-map;
+            reg = <0x8 0x40000000 0x0 0x40000000>;
+        };
+    };
+};

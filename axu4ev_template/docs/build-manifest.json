@@ -1,0 +1,41 @@
+{
+  "config_id": "8900186fcb2c342e9dba1ea204bd0c96b749bf33d68881f1d9a3ba1770ac81f8",
+  "tool_version": "2023.1",
+  "board_tested": true,
+  "files": [
+    {
+      "path": "axu4ev_template/export/axu4ev_system.bit",
+      "size": 7797817,
+      "sha256": "e62e36446f9b878cd77e5d67c6972833abac0750216234c3d12c08ebc75325d2"
+    },
+    {
+      "path": "axu4ev_template/export/axu4ev_system.xsa",
+      "size": 1387983,
+      "sha256": "8936841274c292ef33b0ec56efad7814ea81b80522610629008b745c6646e21a"
+    },
+    {
+      "path": "axu4ev_vitis/build/8900186fcb2c/axu4ev_diagnostics.elf",
+      "size": 773920,
+      "sha256": "d255bea6979482a4852871b831866ec8b0b43cdf5fd1953ab6f82e707e672e0f"
+    },
+    {
+      "path": "axu4ev_vitis/build/8900186fcb2c/BOOT.BIN",
+      "size": 8151496,
+      "sha256": "61dee440c1e946c435be3ec1759e8d86f83857c2091aa9ba995fc68e51fe16ee"
+    }
+  ],
+  "jtag": {
+    "result": "axu4ev_vitis/build/8900186fcb2c/hardware-result.json",
+    "uart_log": "axu4ev_vitis/build/8900186fcb2c/uart.log",
+    "pass": 10,
+    "fail": 1,
+    "skip": 0,
+    "manual": 6,
+    "xsa_sha256": "f52737611bb1e42ab5be6b60a0f3367ce65154be80816ab86a1b23a6feba76a2"
+  },
+  "pl_uart_j8": {
+    "result": "axu4ev_vitis/build/8900186fcb2c/pl-uart-j8-result.json",
+    "xsa_sha256": "8936841274c292ef33b0ec56efad7814ea81b80522610629008b745c6646e21a",
+    "pass": true
+  }
+}

@@ -1,0 +1,6 @@
+build/
+.work/
+__pycache__/
+*.pyc
+hardware-result.json
+*.uart.log

@@ -1,0 +1,17 @@
+CONFIG_BOARD_AXU4EV=y
+CONFIG_PL_RESERVED_MB=0
+CONFIG_PL_CLOCK_MHZ=100
+CONFIG_PS_UART0=y
+# CONFIG_PS_I2C0 is not set
+# CONFIG_PS_GEM3 is not set
+# CONFIG_PS_QSPI is not set
+# CONFIG_PS_EMMC is not set
+# CONFIG_PS_SD is not set
+# CONFIG_PS_USB0 is not set
+# CONFIG_PS_USB3 is not set
+# CONFIG_PS_DP is not set
+# CONFIG_PS_RTC is not set
+# CONFIG_PL_GPIO is not set
+# CONFIG_PL_BRAM is not set
+# CONFIG_PL_DMA is not set
+# CONFIG_PL_UART is not set

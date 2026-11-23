@@ -1,0 +1,101 @@
+mainmenu "EdgeBoard FZ5 Vivado template (2023.1)"
+
+menu "Board and shared DDR4"
+choice BOARD
+	prompt "Physical board DDR population"
+	default BOARD_FZ5D
+config BOARD_FZ5D
+	bool "FZ5D: 8 GiB PS DDR4"
+config BOARD_FZ5C
+	bool "FZ5C: 4 GiB PS DDR4"
+endchoice
+
+choice SPEED_GRADE
+	prompt "Device speed grade (check chip marking)"
+	default SPEED_1
+config SPEED_1
+	bool "xczu5ev-sfvc784-1-i (reference XSA / V13 schematic)"
+config SPEED_2
+	bool "xczu5ev-sfvc784-2-i (hardware manual alternative)"
+endchoice
+
+config PL_RESERVED_MB
+	int "DDR reserved for PL/DMA (MiB, multiples of 64)"
+	range 0 6144 if BOARD_FZ5D
+	range 0 2048 if BOARD_FZ5C
+	default 1024
+	help
+	  There is no separate PL DDR on this board. Reserve the top of the
+	  high PS DDR bank for PL AXI masters. The low 2 GiB stays with PS.
+	  Generates a Linux reserved-memory fragment and a Vitis memory contract.
+	  This reservation is a software ownership rule, not an AXI firewall.
+
+config PL_CLOCK_MHZ
+	int "PS-to-PL clock (PL0, MHz)"
+	range 50 200
+	default 100
+	help
+	  The PS derives pl_clk0 from the board's 33.333 MHz PS reference using
+	  a PLL and clock dividers. Vivado connects pl_clk0 to the template's
+	  AXI logic. This setting is the target output frequency of PL0.
+endmenu
+
+menu "PS peripherals (disabled means controller/pin mux disabled)"
+config PS_UART0
+	bool
+	default y
+	help
+	  J13 debug console, MIO26/27, 115200 8N1. Required by diagnostics.
+comment "UART0/J13 console and GPIO board controls are always enabled"
+config PS_UART1
+	bool "UART1 / RS485 J11 (MIO8/9, direction MIO11)"
+	default y
+config PS_I2C1
+	bool "I2C1 (MIO24/25): EEPROM 0x51, clock 0x76, PMIC 0x5e"
+	default y
+config PS_CAN1
+	bool "CAN1 / J14 (MIO28/29)"
+	default y
+config PS_GEM3
+	bool "GEM3 Ethernet / J17 (MIO64..77), PHY MDIO address 4"
+	default y
+config PS_QSPI
+	bool "QSPI flash (MIO0..5), single x4"
+	default y
+config PS_EMMC
+	bool "SD0 / 32GB eMMC (MIO13..23), 8-bit"
+	default y
+config PS_SD
+	bool "SD1 / TF card J4 (MIO46..51, card detect MIO45)"
+	default y
+config PS_USB0
+	bool "USB0 ULPI (MIO52..63) and host hub"
+	default n
+config PS_USB3
+	bool "USB3 on PS GTR lane1 / 26MHz Ref Clk1"
+	depends on PS_USB0
+	default y
+config PS_DP
+	bool "DisplayPort J6 / GTR lanes2,3 / 27MHz Ref Clk2"
+	default n
+config PS_RTC
+	bool "PS RTC (battery required for time retention)"
+	default y
+endmenu
+
+menu "PL block design"
+config PL_GPIO
+	bool "AXI GPIO internal 32-bit output-to-input loopback"
+	default y
+config PL_BRAM
+	bool "AXI BRAM / 64 KiB"
+	default y
+config PL_DMA
+	bool "AXI DMA + AXIS FIFO loopback into shared DDR (40-bit addresses)"
+	depends on PL_RESERVED_MB > 0
+	default y
+config PL_RS232
+	bool "AXI UARTLite / RS232 J12 (AE15 RX, AB14 TX)"
+	default n
+comment "HDMI/MIPI/VCU are extension points; this template adds no video IP"
+endmenu

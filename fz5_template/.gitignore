@@ -1,0 +1,13 @@
+.work/
+build/
+.Xil/
+*.jou
+*.log
+!docs/evidence/*.log
+*.dmp
+hs_err_pid*
+__pycache__/
+.config.old
+.venv/
+*.egg-info/
+dist/

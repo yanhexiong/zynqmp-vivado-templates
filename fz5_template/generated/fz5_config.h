@@ -1,0 +1,45 @@
+/* Generated from Kconfig. Do not edit. */
+#ifndef FZ5_CONFIG_H
+#define FZ5_CONFIG_H
+#include <stdint.h>
+#define FZ5_BOARD_FZ5D 1
+#define FZ5_BOARD_FZ5C 0
+#define FZ5_SPEED_1 1
+#define FZ5_SPEED_2 0
+#define FZ5_PL_RESERVED_MB 0x400
+#define FZ5_PL_CLOCK_MHZ 0x64
+#define FZ5_PS_UART0 1
+#define FZ5_PS_UART1 1
+#define FZ5_PS_I2C1 1
+#define FZ5_PS_CAN1 1
+#define FZ5_PS_GEM3 1
+#define FZ5_PS_QSPI 1
+#define FZ5_PS_EMMC 1
+#define FZ5_PS_SD 1
+#define FZ5_PS_USB0 0
+#define FZ5_PS_USB3 0
+#define FZ5_PS_DP 0
+#define FZ5_PS_RTC 1
+#define FZ5_PL_GPIO 1
+#define FZ5_PL_BRAM 1
+#define FZ5_PL_DMA 1
+#define FZ5_PL_RS232 0
+#define FZ5_BOARD_NAME "FZ5D"
+#define FZ5_PART "xczu5ev-sfvc784-1-i"
+#define FZ5_DDR_TOTAL_BYTES UINT64_C(0x200000000)
+#define FZ5_DDR_LOW_BASE 0x0
+#define FZ5_DDR_LOW_SIZE 0x80000000
+#define FZ5_DDR_HIGH_BASE UINT64_C(0x800000000)
+#define FZ5_DDR_HIGH_SIZE UINT64_C(0x180000000)
+#define FZ5_PS_AVAILABLE_BYTES UINT64_C(0x1c0000000)
+#define FZ5_PL_POOL_BASE UINT64_C(0x940000000)
+#define FZ5_PL_POOL_SIZE 0x40000000
+#define FZ5_RUN_LED_MIO 0x2b
+#define FZ5_FAN_CTRL_MIO 0x2a
+#define FZ5_GPIO_BASE 0xa0000000
+#define FZ5_BRAM_BASE 0xa0010000
+#define FZ5_BRAM_SIZE 0x10000
+#define FZ5_DMA_BASE 0xa0020000
+#define FZ5_RS232_BASE 0xa0030000
+#define FZ5_CONFIG_ID "2271d2b678ec4181b5a476009ea00ed0603315ec1b4b310e11ee67c3ffc698f9"
+#endif

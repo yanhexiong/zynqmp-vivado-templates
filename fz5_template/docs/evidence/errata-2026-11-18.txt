@@ -1,0 +1,34 @@
+  errata: [
+    {
+      where: "S1-05 · FZ5D RUN 灯引脚",
+      date: "2026-11-18 已实机更正",
+      issue: "旧版说明与 ps_led.c 曾将 D46（RUN 灯）写作 MIO42。该错误来自原理图符号 U2K 文本提取时引脚名与球号上下错位了一行，导致程序实际在翻转风扇控制脚（FAN_CTRL），MIO43 保持默认内部上拉、绿灯一直常亮。",
+      fix: "经 FZ5_BALL.csv（球号 K19）、《MYS-ZU5EV Linux 系统开发指南》第 6.1–6.2 节设备树示例（gpios = <&gpio 43 0>）及 FZ5D 实机验证，D46 的绿色 RUN 灯（SYS_STATUS_LED）实际连接 PS_MIO43（高电平有效，通过 NPN 三极管 Q2 驱动）；PS_MIO42（L18）为风扇控制 FAN_CTRL。ps_led.c 与 README 已更正为 RUN_LED_PIN = 43。"
+    },
+    {
+      where: "S1-05 · FZ5D 指示灯外观",
+      date: "2026-11-18 已实机确认",
+      issue: "硬件文档表 4-4-4-1/2 列出了多颗指示灯，容易误将常亮绿灯当成用户可控灯。",
+      fix: "D46 为红绿双色封装（红色 POWER 常亮、绿色 RUN 受控于 MIO43），闪烁时红绿叠加表现为纯红与黄绿/橙色交替；旁边的独立绿灯 D3（PS_DONE）在配置完成后保持常亮，不受软件控制。"
+    },
+    {
+      where: "S1-05 · FZ5D JTAG 接口编号",
+      date: "2026-11-11 已核对更正",
+      issue: "MYIR 快速使用指南中将 JTAG 口写作“J13”，与硬件说明文档及 PCB 实物不一致。",
+      fix: "以硬件说明文档、V13 原理图与 PCB 丝印为准：J1（6 针 2.54 mm 排针，背面标注 VREF_3.3V / TDI / TDO / TCK / TMS / GND）为 JTAG 接口；J13（Micro-USB）为 PS UART0 调试串口。使用 14 针转接板时须按信号名对齐，切勿将 VREF 与 GND 接反。"
+    },
+    {
+      where: "工具链 · Vivado 2023.1 缺 Vitis",
+      date: "2026-11-18 已实测记录",
+      issue: "安装时若产品仅选 Vivado，目录中只有 Vivado 与 Vitis_HLS，点击 Tools → Launch Vitis 会报错 Vitis IDE launch failed。",
+      fix: "在安装向导中须选择 Vitis（全称 Vitis Unified Software Platform）。若已漏装，通过 Vivado 菜单 Help → Add Design Tools or Devices（或开始菜单 Add Design Tools or Devices 2023.1）补装 Vitis Unified Software Platform，器件仅保留 Zynq UltraScale+ MPSoC，已有器件库不会重复下载。"
+    },
+    {
+      where: "S1-05 · FZ5D DDR4 与 PMU-FW 提示",
+      date: "2026-11-18 已实机验证",
+      issue: "2023.1 中手工填写 8 GB DDR4 参数是否能通过训练尚待实机确认；运行 Hello World 时串口会输出“PMU-FW is not running, certain applications may not be supported.”。",
+      fix: "使用预设 DDR4_MICRON_MT40A256M16GE_083E 与教程参数已在 FZ5D 上通过 Vivado/Vitis 2023.1 的 FSBL 训练并运行程序。PMU-FW is not running 属 Vitis 裸机 Single Application Debug 的正常提示（默认不加载电源管理固件），不影响串口、GPIO 与 PL 调试。"
+    }
+  ],
+
+

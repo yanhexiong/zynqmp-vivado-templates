@@ -1,0 +1,87 @@
+mainmenu "AXU4EV-F Vivado template (Vivado 2023.1)"
+
+menu "Board and shared PS DDR4"
+config BOARD_AXU4EV
+	bool
+	default y
+
+config PL_RESERVED_MB
+	int "PS DDR reserved for PL/DMA (MiB, multiples of 64)"
+	range 0 2048
+	default 1024
+	help
+	  The module has one 4 GiB PS DDR4 subsystem and no separate PL DDR.
+	  Reserve memory from the top of the physical high DDR bank for PL AXI
+	  masters. This only describes software ownership; it is not an AXI firewall.
+
+config PL_CLOCK_MHZ
+	int "PS PL0 fabric clock (MHz)"
+	range 50 200
+	default 100
+endmenu
+
+menu "PS peripherals (disabled means controller/pin mux disabled)"
+config PS_UART0
+	bool
+	default y
+	help
+	  Fixed debug console on MIO42/43 through the carrier CP2102 USB serial port.
+
+config PS_I2C0
+	bool "I2C0 (MIO34/35): carrier 24LC04 EEPROM and LM75 sensor"
+	default y
+
+config PS_GEM3
+	bool "GEM3 Ethernet (MIO64..77), RTL8211F PHY, MDIO address 1"
+	default y
+
+config PS_QSPI
+	bool "QSPI flash (MIO0..6), MT25QU256ABA, single x4"
+	default y
+
+config PS_EMMC
+	bool "SD0 / 8 GB eMMC (MIO13..23, 8-bit; reset MIO23 active low)"
+	default y
+
+config PS_SD
+	bool "SD1 / microSD (MIO45..51, card detect MIO45)"
+	default y
+
+config PS_USB0
+	bool "USB 2.0 ULPI (MIO52..63), reset MIO31"
+	default y
+
+config PS_USB3
+	bool "USB 3.0 PS GTR lane 1 / Ref Clk1 26 MHz"
+	depends on PS_USB0
+	default y
+
+config PS_DP
+	bool "DisplayPort (AUX MIO27..30, GTR lanes 2/3, Ref Clk2 27 MHz)"
+	default y
+
+config PS_RTC
+	bool "PS RTC (battery required for time retention)"
+	default y
+endmenu
+
+menu "PL block design"
+config PL_GPIO
+	bool "AXI GPIO internal 32-bit output-to-input loopback"
+	default y
+
+config PL_BRAM
+	bool "AXI BRAM / 64 KiB"
+	default y
+
+config PL_DMA
+	bool "AXI DMA + AXIS FIFO loopback to shared PS DDR (40-bit addresses)"
+	depends on PL_RESERVED_MB > 0
+	default y
+
+config PL_UART
+	bool "AXI UARTLite to carrier CP2102 USB virtual COM port (115200 8N1)"
+	default y
+	help
+	  UART RX/TX use the carrier level translator. The PL-side signals are 1.8 V.
+endmenu

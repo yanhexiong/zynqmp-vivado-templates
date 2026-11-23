@@ -1,0 +1,91 @@
+# FZ5 V13 MIO/GTR routing, checked against the schematic and vendor BD Tcl.
+# DDR geometry/timings match the user's working 2023.1 8-GiB reference XSA.
+proc fz5_configure_ps {ps} {
+    global cfg
+    set capacity [expr {$cfg(BOARD_FZ5D) ? 16384 : 8192}]
+    set row [expr {$cfg(BOARD_FZ5D) ? 17 : 16}]
+    set props [list \
+        CONFIG.PSU_BANK_0_IO_STANDARD LVCMOS33 \
+        CONFIG.PSU_BANK_1_IO_STANDARD LVCMOS33 \
+        CONFIG.PSU_BANK_2_IO_STANDARD LVCMOS33 \
+        CONFIG.PSU__PSS_REF_CLK__FREQMHZ 33.333 \
+        CONFIG.PSU__CRF_APB__ACPU_CTRL__FREQMHZ 1200 \
+        CONFIG.PSU__CRF_APB__ACPU_CTRL__SRCSEL DPLL \
+        CONFIG.PSU__CRF_APB__DDR_CTRL__FREQMHZ 1200 \
+        CONFIG.PSU__CRF_APB__DDR_CTRL__SRCSEL DPLL \
+        CONFIG.PSU__DDRC__ENABLE 1 \
+        CONFIG.PSU__DDRC__MEMORY_TYPE {DDR 4} \
+        CONFIG.PSU__DDRC__COMPONENTS Components \
+        CONFIG.PSU__DDRC__BUS_WIDTH {64 Bit} \
+        CONFIG.PSU__DDRC__DRAM_WIDTH {16 Bits} \
+        CONFIG.PSU__DDRC__DEVICE_CAPACITY "$capacity MBits" \
+        CONFIG.PSU__DDRC__ROW_ADDR_COUNT $row \
+        CONFIG.PSU__DDRC__COL_ADDR_COUNT 10 \
+        CONFIG.PSU__DDRC__BANK_ADDR_COUNT 2 \
+        CONFIG.PSU__DDRC__BG_ADDR_COUNT 1 \
+        CONFIG.PSU__DDRC__RANK_ADDR_COUNT 0 \
+        CONFIG.PSU__DDRC__SPEED_BIN DDR4_2400P \
+        CONFIG.PSU__DDRC__DDR4_ADDR_MAPPING 0 \
+        CONFIG.PSU__DDRC__ECC Disabled \
+        CONFIG.PSU__DDRC__CL 16 \
+        CONFIG.PSU__DDRC__CWL 12 \
+        CONFIG.PSU__DDRC__T_RCD 16 \
+        CONFIG.PSU__DDRC__T_RP 16 \
+        CONFIG.PSU__DDRC__T_RC 45.32 \
+        CONFIG.PSU__DDRC__T_RAS_MIN 32 \
+        CONFIG.PSU__DDRC__T_FAW 30.0 \
+        CONFIG.PSU__DDRC__TRAIN_DATA_EYE 1 \
+        CONFIG.PSU__DDRC__TRAIN_READ_GATE 1 \
+        CONFIG.PSU__DDRC__TRAIN_WRITE_LEVEL 1 \
+        CONFIG.PSU__GPIO0_MIO__PERIPHERAL__ENABLE 1 \
+        CONFIG.PSU__GPIO1_MIO__PERIPHERAL__ENABLE 1 \
+        CONFIG.PSU__UART0__PERIPHERAL__ENABLE 1 \
+        CONFIG.PSU__UART0__PERIPHERAL__IO {MIO 26 .. 27} \
+        CONFIG.PSU__UART0__BAUD_RATE 115200 \
+        CONFIG.PSU__UART1__PERIPHERAL__ENABLE $cfg(PS_UART1) \
+        CONFIG.PSU__I2C1__PERIPHERAL__ENABLE $cfg(PS_I2C1) \
+        CONFIG.PSU__CAN1__PERIPHERAL__ENABLE $cfg(PS_CAN1) \
+        CONFIG.PSU__ENET3__PERIPHERAL__ENABLE $cfg(PS_GEM3) \
+        CONFIG.PSU__ENET3__GRP_MDIO__ENABLE $cfg(PS_GEM3) \
+        CONFIG.PSU__QSPI__PERIPHERAL__ENABLE $cfg(PS_QSPI) \
+        CONFIG.PSU__SD0__PERIPHERAL__ENABLE $cfg(PS_EMMC) \
+        CONFIG.PSU__SD1__PERIPHERAL__ENABLE $cfg(PS_SD) \
+        CONFIG.PSU__USB0__PERIPHERAL__ENABLE $cfg(PS_USB0) \
+        CONFIG.PSU__USB3_0__PERIPHERAL__ENABLE $cfg(PS_USB3) \
+        CONFIG.PSU__DISPLAYPORT__PERIPHERAL__ENABLE $cfg(PS_DP) \
+        CONFIG.PSU__DPAUX__PERIPHERAL__ENABLE $cfg(PS_DP) \
+        CONFIG.PSU__USE__RTC $cfg(PS_RTC) \
+        CONFIG.PSU__FPGA_PL0_ENABLE 1 \
+        CONFIG.PSU__CRL_APB__PL0_REF_CTRL__FREQMHZ $cfg(PL_CLOCK_MHZ) \
+        CONFIG.PSU__USE__M_AXI_GP0 0 \
+        CONFIG.PSU__USE__M_AXI_GP1 0 \
+        CONFIG.PSU__USE__M_AXI_GP2 0 \
+        CONFIG.PSU__USE__S_AXI_GP2 $cfg(PL_DMA)]
+    if {$cfg(PS_UART1)} { lappend props CONFIG.PSU__UART1__PERIPHERAL__IO {MIO 8 .. 9} CONFIG.PSU__UART1__BAUD_RATE 115200 }
+    if {$cfg(PS_I2C1)} { lappend props CONFIG.PSU__I2C1__PERIPHERAL__IO {MIO 24 .. 25} }
+    if {$cfg(PS_CAN1)} { lappend props CONFIG.PSU__CAN1__PERIPHERAL__IO {MIO 28 .. 29} }
+    if {$cfg(PS_GEM3)} { lappend props CONFIG.PSU__ENET3__PERIPHERAL__IO {MIO 64 .. 75} CONFIG.PSU__ENET3__GRP_MDIO__IO {MIO 76 .. 77} }
+    if {$cfg(PS_QSPI)} { lappend props CONFIG.PSU__QSPI__PERIPHERAL__IO {MIO 0 .. 5} CONFIG.PSU__QSPI__PERIPHERAL__MODE Single CONFIG.PSU__QSPI__PERIPHERAL__DATA_MODE x4 }
+    if {$cfg(PS_EMMC)} {
+        lappend props CONFIG.PSU__SD0__PERIPHERAL__IO {MIO 13 .. 22} \
+            CONFIG.PSU__SD0__DATA_TRANSFER_MODE 8Bit CONFIG.PSU__SD0__SLOT_TYPE eMMC \
+            CONFIG.PSU__SD0__RESET__ENABLE 1 CONFIG.PSU__SD0__GRP_POW__ENABLE 1 CONFIG.PSU__SD0__GRP_POW__IO {MIO 23}
+    }
+    if {$cfg(PS_SD)} {
+        lappend props CONFIG.PSU__SD1__PERIPHERAL__IO {MIO 46 .. 51} \
+            CONFIG.PSU__SD1__DATA_TRANSFER_MODE 4Bit CONFIG.PSU__SD1__SLOT_TYPE {SD 2.0} \
+            CONFIG.PSU__SD1__GRP_CD__ENABLE 1 CONFIG.PSU__SD1__GRP_CD__IO {MIO 45} CONFIG.PSU__SD1__GRP_WP__ENABLE 0
+    }
+    if {$cfg(PS_USB0)} { lappend props CONFIG.PSU__USB0__PERIPHERAL__IO {MIO 52 .. 63} }
+    if {$cfg(PS_USB3)} { lappend props CONFIG.PSU__USB3_0__PERIPHERAL__IO {GT Lane1} CONFIG.PSU__USB0__REF_CLK_SEL {Ref Clk1} CONFIG.PSU__USB0__REF_CLK_FREQ 26 }
+    if {$cfg(PS_DP)} {
+        lappend props CONFIG.PSU__DPAUX__PERIPHERAL__IO {MIO 34 .. 37} \
+            CONFIG.PSU__DP__LANE_SEL {Dual Higher} CONFIG.PSU__DP__REF_CLK_SEL {Ref Clk2} CONFIG.PSU__DP__REF_CLK_FREQ 27 \
+            CONFIG.PSU__CRF_APB__DP_VIDEO_REF_CTRL__SRCSEL VPLL \
+            CONFIG.PSU__CRF_APB__DP_AUDIO_REF_CTRL__SRCSEL RPLL CONFIG.PSU__CRF_APB__DP_STC_REF_CTRL__SRCSEL RPLL
+    }
+    set have_axi [expr {$cfg(PL_GPIO) || $cfg(PL_BRAM) || $cfg(PL_DMA) || $cfg(PL_RS232)}]
+    lappend props CONFIG.PSU__USE__M_AXI_GP0 $have_axi
+    # Keep unclaimed pins as inputs, including MIO42 fan control. No fabricated XDC MIO constraints.
+    set_property -dict $props $ps
+}

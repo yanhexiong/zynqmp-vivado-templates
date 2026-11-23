@@ -1,0 +1,26 @@
+# Vivado / Vitis / XSCT temporary directories and logs
+.Xil/
+.metadata/
+.work/
+build/
+*.jou
+*.log
+*.dmp
+hs_err_pid*
+
+# Preserve curated build evidence logs under docs/evidence
+!**/docs/evidence/*.log
+
+# XSCT auto-extracted XSA copies inside export/ (already bundled in *.xsa)
+**/export/psu_init*
+**/export/*_system_wrapper/
+
+# Python / uv / packaging artifacts
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+
+# Kconfig backup
+.config.old

@@ -1,0 +1,35 @@
+{
+  "config_id": "2271d2b678ec4181b5a476009ea00ed0603315ec1b4b310e11ee67c3ffc698f9",
+  "tool_version": "2023.1",
+  "board_tested": true,
+  "files": [
+    {
+      "path": "fz5_template/export/fz5_system.bit",
+      "size": 7797814,
+      "sha256": "63e8fb802a3b5656f5a4660760f753feef15345689d8ee28eb717708d9bc4728"
+    },
+    {
+      "path": "fz5_template/export/fz5_system.xsa",
+      "size": 1147973,
+      "sha256": "2de94e58445f083ff54e505416b75793da8a2998f8cc0e036e219c0744eec8ea"
+    },
+    {
+      "path": "fz5_vitis/build/2271d2b678ec/fz5_diagnostics.elf",
+      "size": 839096,
+      "sha256": "ecd0dfca269d9314918ce92024a34460d3e9064684c05c46d164038eee605a6f"
+    },
+    {
+      "path": "fz5_vitis/build/2271d2b678ec/BOOT.BIN",
+      "size": 8155592,
+      "sha256": "59f2fe23a5c0a7bd3e4eacf6db43454df71da8919ca3022e2a5823e53ac7c2f3"
+    }
+  ],
+  "jtag": {
+    "result": "fz5_vitis/build/2271d2b678ec/hardware-result.json",
+    "uart_log": "fz5_vitis/build/2271d2b678ec/uart.log",
+    "pass": 12,
+    "fail": 0,
+    "skip": 3,
+    "manual": 6
+  }
+}

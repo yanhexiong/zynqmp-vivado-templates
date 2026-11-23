@@ -1,0 +1,24 @@
+[project]
+name = "fz5-config"
+version = "0.3.0"
+description = "Portable Kconfig editor for the FZ5 Vivado template"
+requires-python = ">=3.10"
+dependencies = [
+    "textual>=6,<7",
+]
+
+[project.scripts]
+fz5-config = "fz5_config.cli:entrypoint"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["fz5_config", "fz5_config.locales"]
+
+[tool.setuptools.package-data]
+"fz5_config.locales" = ["*.json"]
+
+[tool.uv]
+package = true

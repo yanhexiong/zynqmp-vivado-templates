@@ -1,0 +1,13 @@
+CONFIG_BOARD_FZ5D=y
+CONFIG_PL_RESERVED_MB=0
+# CONFIG_PS_UART1 is not set
+# CONFIG_PS_I2C1 is not set
+# CONFIG_PS_CAN1 is not set
+# CONFIG_PS_GEM3 is not set
+# CONFIG_PS_QSPI is not set
+# CONFIG_PS_EMMC is not set
+# CONFIG_PS_SD is not set
+# CONFIG_PS_RTC is not set
+# CONFIG_PL_GPIO is not set
+# CONFIG_PL_BRAM is not set
+# CONFIG_PL_DMA is not set

@@ -1,0 +1,15 @@
+/* Include inside a ZynqMP system-user.dtsi. DDR is shared with PL.
+ * CONFIG_ID: 2271d2b678ec4181b5a476009ea00ed0603315ec1b4b310e11ee67c3ffc698f9
+ * no-map reserves ownership; it does not enforce AXI isolation. */
+/ {
+    fz5-config-id = "2271d2b678ec4181b5a476009ea00ed0603315ec1b4b310e11ee67c3ffc698f9";
+    reserved-memory {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+        fz5_pl_pool: pl-pool@940000000 {
+            no-map;
+            reg = <0x9 0x40000000 0x0 0x40000000>;
+        };
+    };
+};
